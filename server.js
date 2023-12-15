@@ -253,7 +253,7 @@ app.post("/subirTopPlaces", async (req, res) => {
         // const docbody = req.body;
         const doc = 
             {
-                id: req.body.id,
+         id: req.body.id,
         image: req.body.image,
         title: req.body.title,
         location: req.body.location,
@@ -266,6 +266,82 @@ app.post("/subirTopPlaces", async (req, res) => {
         reviews: [REVIEWS[2], REVIEWS[1]],
         hotels: [HOTELS[9], HOTELS[10]],
             }
+
+    
+        const result = await post.insertMany(doc);
+        res.status(200).send(
+            `se creo exitosamente el usuario con create post ${result}`
+        );
+    } catch (error) {
+        res.status(500).send("no se creo el usuario");
+        console.log(error);
+    } finally {
+        await client.close();
+    }
+});
+
+app.post("/subirPlaces", async (req, res) => {
+    // console.log("--- Create Post --- ");
+    try {
+        const client = new MongoClient(uri);
+        const database = client.db("UX-Airbnb-Project");
+        const post = database.collection("Places");
+        // const docbody = req.body;
+        const doc = 
+        [
+            {
+                id: 5,
+                image: '../../assets/images/trips/645d5f28e26c7de2a280f71db15c2141.jpeg',
+                title: 'Cappadocia',
+                location: 'Turkey',
+                description:
+                    "Cappadocia's landscape includes dramatic expanses of soft volcanic rock, shaped by erosion into towers, cones, valleys, and caves. Rock-cut churches and underground tunnel complexes from the Byzantine and Islamic eras are scattered throughout the countryside.",
+                rating: 9.2,
+                gallery: [
+                    ('../../assets/images/trips/4c73f37e70dded978374960fb29360f2.jpeg'),
+                    ('../../assets/images/trips/55608c7000bb15d24ee022f3d3f0bf8a.jpeg'),
+                    ('../../assets/images/trips/c68a4484f89d0c087ebdaa43629d2a7a.jpeg'),
+                ],
+                reviews: [1,2],
+                hotels: [1,2],
+            },
+            {
+                id: 2,
+                image: '../../assets/images/trips/eea622430834cb64b900c2f03e5be6b8.jpeg',
+                title: 'Capri',
+                location: 'Italy',
+                description:
+                    'Capri is an island of a thousand faces, where visitors can walk the trails skirting the cliffs above the Mediterranean in total solitude, dive into the crystalline waters of its rocky shore, or plunge into the vibrant crowds of the Piazzetta and shop in the most fashionable boutiques in the world.',
+                rating: 9.1,
+                gallery: [],
+                reviews: [1,2],
+                hotels: [3,4],
+            },
+            {
+                id: 3,
+                image: '../../assets/images/trips/0e627c12c05e4dd93ab122d618ea7849.jpeg',
+                title: 'Bora Bora',
+                location: 'Polynesia',
+                description:
+                    'Learn how you can travel Bora Bora on a budget and how overwater bungalows are possible for cheap plus tips on keeping Bora Bora trip costs low.',
+                rating: 8.9,
+                gallery: [],
+                reviews: [1,2],
+                hotels: [5,6],
+            },
+            {
+                id: 7,
+                image: '../../assets/images/trips/c2dcbb54ca9316831b0f6ed4d4136dda.jpeg',
+                title: 'Phuket',
+                location: 'Thailand',
+                description:
+                    'Phuket is the largest island in Thailand. It is located in the Andaman Sea in southern Thailand',
+                rating: 9.2,
+                gallery: [],
+                reviews: [1,2],
+                hotels: [7,8],
+            },
+        ];
 
     
         const result = await post.insertMany(doc);
@@ -389,229 +465,6 @@ app.get("/listReviews", async (req, res) => {
         if ((await post.countDocuments()) === 0) {
             console.log("No documents found!");
             res.status(200).send(`no se encontraron docuemntos`);
-        }
-
-        let arr = [];
-        // Print returned documents
-        for await (const doc of cursor) {
-            console.dir(doc);
-            arr.push(doc);
-        }
-        res.status(200).send({
-            documentos: arr,
-        });
-        // console.log(`hay ${await post.countDocuments()} documentos`);
-    } catch (error) {
-        res.status(500).send("no se pudo leer");
-        console.error(error);
-    } finally {
-        await client.close();
-    }
-    // run().catch(console.dir);
-});
-
-app.get("/listUsers", async (req, res) => {
-    try {
-        const client = new MongoClient(uri);
-        const database = client.db("UX-Airbnb-Project");
-        const post = database.collection("Users");
-
-        // const query = {};
-        // const options = {
-        //     // sort: {nombre: 1},
-        //     projection: {id: 0, nombre: 1, apellido: 1},
-        // };
-        const cursor = post.find();
-
-        if ((await post.countDocuments()) === 0) {
-            console.log("No documents found!");
-            res.status(200).send(`no se encontraron documentos`);
-        }
-
-        let arr = [];
-        // Print returned documents
-        for await (const doc of cursor) {
-            console.dir(doc);
-            arr.push(doc);
-        }
-        res.status(200).send({
-            documentos: arr,
-        });
-        // console.log(`hay ${await post.countDocuments()} documentos`);
-    } catch (error) {
-        res.status(500).send("no se pudo leer");
-        console.error(error);
-    } finally {
-        await client.close();
-    }
-    // run().catch(console.dir);
-});
-
-
-app.get("/listReviews", async (req, res) => {
-    try {
-        const client = new MongoClient(uri);
-        const database = client.db("UX-Airbnb-Project");
-        const post = database.collection("Reviews");
-
-        // const query = {};
-        // const options = {
-        //     // sort: {nombre: 1},
-        //     projection: {id: 0, nombre: 1, apellido: 1},
-        // };
-        const cursor = post.find();
-
-        if ((await post.countDocuments()) === 0) {
-            console.log("No documents found!");
-            res.status(200).send(`no se encontraron docuemntos`);
-        }
-
-        let arr = [];
-        // Print returned documents
-        for await (const doc of cursor) {
-            console.dir(doc);
-            arr.push(doc);
-        }
-        res.status(200).send({
-            documentos: arr,
-        });
-        // console.log(`hay ${await post.countDocuments()} documentos`);
-    } catch (error) {
-        res.status(500).send("no se pudo leer");
-        console.error(error);
-    } finally {
-        await client.close();
-    }
-    // run().catch(console.dir);
-});
-
-app.get("/listHotels", async (req, res) => {
-    try {
-        const client = new MongoClient(uri);
-        const database = client.db("UX-Airbnb-Project");
-        const post = database.collection("Hotels");
-
-        // const query = {};
-        // const options = {
-        //     // sort: {nombre: 1},
-        //     projection: {id: 0, nombre: 1, apellido: 1},
-        // };
-        const cursor = post.find();
-
-        if ((await post.countDocuments()) === 0) {
-            console.log("No documents found!");
-            res.status(200).send(`no se encontraron docuemntos`);
-        }
-
-        let arr = [];
-        // Print returned documents
-        for await (const doc of cursor) {
-            console.dir(doc);
-            arr.push(doc);
-        }
-        res.status(200).send({
-            documentos: arr,
-        });
-        // console.log(`hay ${await post.countDocuments()} documentos`);
-    } catch (error) {
-        res.status(500).send("no se pudo leer");
-        console.error(error);
-    } finally {
-        await client.close();
-    }
-    // run().catch(console.dir);
-});
-
-app.get("/listTopPlaces", async (req, res) => {
-    try {
-        const client = new MongoClient(uri);
-        const database = client.db("UX-Airbnb-Project");
-        const post = database.collection("TopPlaces");
-
-        // const query = {};
-        // const options = {
-        //     // sort: {nombre: 1},
-        //     projection: {id: 0, nombre: 1, apellido: 1},
-        // };
-        const cursor = post.find();
-
-        if ((await post.countDocuments()) === 0) {
-            console.log("No documents found!");
-            res.status(200).send(`no se encontraron documentos`);
-        }
-
-        let arr = [];
-        // Print returned documents
-        for await (const doc of cursor) {
-            console.dir(doc);
-            arr.push(doc);
-        }
-        res.status(200).send({
-            documentos: arr,
-        });
-        // console.log(`hay ${await post.countDocuments()} documentos`);
-    } catch (error) {
-        res.status(500).send("no se pudo leer");
-        console.error(error);
-    } finally {
-        await client.close();
-    }
-    // run().catch(console.dir);
-});
-
-app.get("/listPlaces", async (req, res) => {
-    try {
-        const client = new MongoClient(uri);
-        const database = client.db("UX-Airbnb-Project");
-        const post = database.collection("Places");
-
-        // const query = {};
-        // const options = {
-        //     // sort: {nombre: 1},
-        //     projection: {id: 0, nombre: 1, apellido: 1},
-        // };
-        const cursor = post.find();
-
-        if ((await post.countDocuments()) === 0) {
-            console.log("No documents found!");
-            res.status(200).send(`no se encontraron documentos`);
-        }
-
-        let arr = [];
-        // Print returned documents
-        for await (const doc of cursor) {
-            console.dir(doc);
-            arr.push(doc);
-        }
-        res.status(200).send({
-            documentos: arr,
-        });
-        // console.log(`hay ${await post.countDocuments()} documentos`);
-    } catch (error) {
-        res.status(500).send("no se pudo leer");
-        console.error(error);
-    } finally {
-        await client.close();
-    }
-    // run().catch(console.dir);
-});
-
-app.get("/listFavorites", async (req, res) => {
-    try {
-        const client = new MongoClient(uri);
-        const database = client.db("UX-Airbnb-Project");
-        const post = database.collection("Favorites");
-
-        // const query = {};
-        // const options = {
-        //     // sort: {nombre: 1},
-        //     projection: {id: 0, nombre: 1, apellido: 1},
-        // };
-        const cursor = post.find();
-
-        if ((await post.countDocuments()) === 0) {
-            console.log("No documents found!");
-            res.status(200).send(`no se encontraron documentos`);
         }
 
         let arr = [];
