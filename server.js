@@ -440,7 +440,7 @@ app.get("/listPost", async (req, res) => {
 app.get("/listReviews", async (req, res) => {
     try {
         const client = new MongoClient(uri);
-        const database = client.db("insertDB");
+        const database = client.db("UX-Airbnb-Project");
         const post = database.collection("Reviews");
 
         // const query = {};
