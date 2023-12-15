@@ -231,8 +231,7 @@ app.post("/subirHotels", async (req, res) => {
 
              }
 
-    
-        const result = await post.insertMany(doc);
+        const result = await post.insertOne(doc);
         res.status(200).send(
             `se creo exitosamente el usuario con create post ${result}`
         );
@@ -253,45 +252,20 @@ app.post("/subirTopPlaces", async (req, res) => {
         const post = database.collection("TopPlaces");
         // const docbody = req.body;
         const doc = 
-            [ {
-                id: 1,
-                image: ('../../assets/images/trips/2082f59465c39094ce90bebd0fcf8fa7.jpeg'),
-                title: 'Amalfi Coast',
-                location: 'Italy',
-                description:
-                    'The ultimate Amalfi Coast travel guide, where to stay, where to eat, and what areas to visit in the Amalfi Coast of Italy. Positano, Ravello, Amalfi and more',
-                rating: 9.4,
-                gallery: [
-                    ('../../assets/images/trips/3722dd4614a5a58f2ec8ebf17c22f76d.jpeg'),
-                    ('../../assets/images/trips/af933a359582704eee05be198e882be0.jpeg'),
-                ],
-                reviews: [2,1],
-                hotels: [9,10],
-            },
             {
-                id: 4,
-                image: ('../../assets/images/trips/922a0cb274208ccd234f6c14f2174b8b.jpeg'),
-                title: 'Granada',
-                location: 'Spain',
-                description:
-                    'Granada is the capital city of the province of Granada, in the autonomous community of Andalusia, Spain',
-                rating: 8.9,
-                gallery: 0,
-                reviews: [1,2],
-                hotels: [11,12],
-            },
-            {
-                id: 6,
-                image: ('../../assets/images/trips/e57a2a310330ee1d8928eb75d416a53d.jpeg'),
-                title: 'Cherry blossoms',
-                location: 'Japan',
-                description:
-                    "Cherry blossoms usually bloom between mid-March and early May. In 2022, Tokyo's cherry blossom season officially began on March 20",
-                rating: 7.4,
-                gallery: 0,
-                reviews: [1,2],
-                hotels: [13,14],
-            },];
+                id: req.body.id,
+        image: req.body.image,
+        title: req.body.title,
+        location: req.body.location,
+        description: req.body.description,
+        rating: req.body.rating,
+        gallery: [
+            ('../../assets/images/trips/3722dd4614a5a58f2ec8ebf17c22f76d.jpeg'),
+            ('../../assets/images/trips/af933a359582704eee05be198e882be0.jpeg'),
+        ],
+        reviews: [REVIEWS[2], REVIEWS[1]],
+        hotels: [HOTELS[9], HOTELS[10]],
+            }
 
     
         const result = await post.insertMany(doc);
@@ -415,191 +389,6 @@ app.get("/listReviews", async (req, res) => {
         if ((await post.countDocuments()) === 0) {
             console.log("No documents found!");
             res.status(200).send(`no se encontraron docuemntos`);
-        }
-
-        let arr = [];
-        // Print returned documents
-        for await (const doc of cursor) {
-            console.dir(doc);
-            arr.push(doc);
-        }
-        res.status(200).send({
-            documentos: arr,
-        });
-        // console.log(`hay ${await post.countDocuments()} documentos`);
-    } catch (error) {
-        res.status(500).send("no se pudo leer");
-        console.error(error);
-    } finally {
-        await client.close();
-    }
-    // run().catch(console.dir);
-});
-
-app.get("/listUsers", async (req, res) => {
-    try {
-        const client = new MongoClient(uri);
-        const database = client.db("UX-Airbnb-Project");
-        const post = database.collection("Users");
-
-        // const query = {};
-        // const options = {
-        //     // sort: {nombre: 1},
-        //     projection: {id: 0, nombre: 1, apellido: 1},
-        // };
-        const cursor = post.find();
-
-        if ((await post.countDocuments()) === 0) {
-            console.log("No documents found!");
-            res.status(200).send(`no se encontraron documentos`);
-        }
-
-        let arr = [];
-        // Print returned documents
-        for await (const doc of cursor) {
-            console.dir(doc);
-            arr.push(doc);
-        }
-        res.status(200).send({
-            documentos: arr,
-        });
-        // console.log(`hay ${await post.countDocuments()} documentos`);
-    } catch (error) {
-        res.status(500).send("no se pudo leer");
-        console.error(error);
-    } finally {
-        await client.close();
-    }
-    // run().catch(console.dir);
-});
-
-app.get("/listHotels", async (req, res) => {
-    try {
-        const client = new MongoClient(uri);
-        const database = client.db("UX-Airbnb-Project");
-        const post = database.collection("Hotels");
-
-        // const query = {};
-        // const options = {
-        //     // sort: {nombre: 1},
-        //     projection: {id: 0, nombre: 1, apellido: 1},
-        // };
-        const cursor = post.find();
-
-        if ((await post.countDocuments()) === 0) {
-            console.log("No documents found!");
-            res.status(200).send(`no se encontraron docuemntos`);
-        }
-
-        let arr = [];
-        // Print returned documents
-        for await (const doc of cursor) {
-            console.dir(doc);
-            arr.push(doc);
-        }
-        res.status(200).send({
-            documentos: arr,
-        });
-        // console.log(`hay ${await post.countDocuments()} documentos`);
-    } catch (error) {
-        res.status(500).send("no se pudo leer");
-        console.error(error);
-    } finally {
-        await client.close();
-    }
-    // run().catch(console.dir);
-});
-
-app.get("/listTopPlaces", async (req, res) => {
-    try {
-        const client = new MongoClient(uri);
-        const database = client.db("UX-Airbnb-Project");
-        const post = database.collection("TopPlaces");
-
-        // const query = {};
-        // const options = {
-        //     // sort: {nombre: 1},
-        //     projection: {id: 0, nombre: 1, apellido: 1},
-        // };
-        const cursor = post.find();
-
-        if ((await post.countDocuments()) === 0) {
-            console.log("No documents found!");
-            res.status(200).send(`no se encontraron documentos`);
-        }
-
-        let arr = [];
-        // Print returned documents
-        for await (const doc of cursor) {
-            console.dir(doc);
-            arr.push(doc);
-        }
-        res.status(200).send({
-            documentos: arr,
-        });
-        // console.log(`hay ${await post.countDocuments()} documentos`);
-    } catch (error) {
-        res.status(500).send("no se pudo leer");
-        console.error(error);
-    } finally {
-        await client.close();
-    }
-    // run().catch(console.dir);
-});
-
-app.get("/listPlaces", async (req, res) => {
-    try {
-        const client = new MongoClient(uri);
-        const database = client.db("UX-Airbnb-Project");
-        const post = database.collection("Places");
-
-        // const query = {};
-        // const options = {
-        //     // sort: {nombre: 1},
-        //     projection: {id: 0, nombre: 1, apellido: 1},
-        // };
-        const cursor = post.find();
-
-        if ((await post.countDocuments()) === 0) {
-            console.log("No documents found!");
-            res.status(200).send(`no se encontraron documentos`);
-        }
-
-        let arr = [];
-        // Print returned documents
-        for await (const doc of cursor) {
-            console.dir(doc);
-            arr.push(doc);
-        }
-        res.status(200).send({
-            documentos: arr,
-        });
-        // console.log(`hay ${await post.countDocuments()} documentos`);
-    } catch (error) {
-        res.status(500).send("no se pudo leer");
-        console.error(error);
-    } finally {
-        await client.close();
-    }
-    // run().catch(console.dir);
-});
-
-app.get("/listFavorites", async (req, res) => {
-    try {
-        const client = new MongoClient(uri);
-        const database = client.db("UX-Airbnb-Project");
-        const post = database.collection("Favorites");
-
-        // const query = {};
-        // const options = {
-        //     // sort: {nombre: 1},
-        //     projection: {id: 0, nombre: 1, apellido: 1},
-        // };
-        const cursor = post.find();
-
-        if ((await post.countDocuments()) === 0) {
-            console.log("No documents found!");
-            res.status(200).send(`no se encontraron documentos`);
         }
 
         let arr = [];
