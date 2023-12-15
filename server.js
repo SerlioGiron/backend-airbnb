@@ -226,6 +226,41 @@ app.post("/subirReviews", async (req, res) => {
     }
 });
 
+app.post("/subirHotels", async (req, res) => {
+    // console.log("--- Create Post --- ");
+    try {
+        const client = new MongoClient(uri);
+        const database = client.db("UX-Airbnb-Project");
+        const post = database.collection("Hotels");
+        // const docbody = req.body;
+        const doc = [
+            {
+                id: 1,
+                date: '21 May, 2022',
+                author: 1,
+                rating: 7,
+                text: 'Lorem ipsum dolor sit amet. Iusto nihil et porro soluta ut labore nesciunt sed dolor nihil qui laudantium consequatur',
+            },
+            {
+                id: 2,
+                date: '14 July, 2021',
+                author: 2,
+                rating: 9.1,
+                text: 'Lorem ipsum dolor sit amet.',
+            },
+        ];
+        const result = await post.insertMany(doc);
+        res.status(200).send(
+            `se creo exitosamente el usuario con create post ${result}`
+        );
+    } catch (error) {
+        res.status(500).send("no se creo el usuario");
+        console.log(error);
+    } finally {
+        await client.close();
+    }
+});
+
 app.put("/editPost/:_id", async (req, res) => {
     try {
         const client = new MongoClient(uri);
