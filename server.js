@@ -435,3 +435,188 @@ app.get("/listReviews", async (req, res) => {
     }
     // run().catch(console.dir);
 });
+
+app.get("/listUsers", async (req, res) => {
+    try {
+        const client = new MongoClient(uri);
+        const database = client.db("UX-Airbnb-Project");
+        const post = database.collection("Users");
+
+        // const query = {};
+        // const options = {
+        //     // sort: {nombre: 1},
+        //     projection: {id: 0, nombre: 1, apellido: 1},
+        // };
+        const cursor = post.find();
+
+        if ((await post.countDocuments()) === 0) {
+            console.log("No documents found!");
+            res.status(200).send(`no se encontraron documentos`);
+        }
+
+        let arr = [];
+        // Print returned documents
+        for await (const doc of cursor) {
+            console.dir(doc);
+            arr.push(doc);
+        }
+        res.status(200).send({
+            documentos: arr,
+        });
+        // console.log(`hay ${await post.countDocuments()} documentos`);
+    } catch (error) {
+        res.status(500).send("no se pudo leer");
+        console.error(error);
+    } finally {
+        await client.close();
+    }
+    // run().catch(console.dir);
+});
+
+app.get("/listHotels", async (req, res) => {
+    try {
+        const client = new MongoClient(uri);
+        const database = client.db("UX-Airbnb-Project");
+        const post = database.collection("Hotels");
+
+        // const query = {};
+        // const options = {
+        //     // sort: {nombre: 1},
+        //     projection: {id: 0, nombre: 1, apellido: 1},
+        // };
+        const cursor = post.find();
+
+        if ((await post.countDocuments()) === 0) {
+            console.log("No documents found!");
+            res.status(200).send(`no se encontraron docuemntos`);
+        }
+
+        let arr = [];
+        // Print returned documents
+        for await (const doc of cursor) {
+            console.dir(doc);
+            arr.push(doc);
+        }
+        res.status(200).send({
+            documentos: arr,
+        });
+        // console.log(`hay ${await post.countDocuments()} documentos`);
+    } catch (error) {
+        res.status(500).send("no se pudo leer");
+        console.error(error);
+    } finally {
+        await client.close();
+    }
+    // run().catch(console.dir);
+});
+
+app.get("/listTopPlaces", async (req, res) => {
+    try {
+        const client = new MongoClient(uri);
+        const database = client.db("UX-Airbnb-Project");
+        const post = database.collection("TopPlaces");
+
+        // const query = {};
+        // const options = {
+        //     // sort: {nombre: 1},
+        //     projection: {id: 0, nombre: 1, apellido: 1},
+        // };
+        const cursor = post.find();
+
+        if ((await post.countDocuments()) === 0) {
+            console.log("No documents found!");
+            res.status(200).send(`no se encontraron documentos`);
+        }
+
+        let arr = [];
+        // Print returned documents
+        for await (const doc of cursor) {
+            console.dir(doc);
+            arr.push(doc);
+        }
+        res.status(200).send({
+            documentos: arr,
+        });
+        // console.log(`hay ${await post.countDocuments()} documentos`);
+    } catch (error) {
+        res.status(500).send("no se pudo leer");
+        console.error(error);
+    } finally {
+        await client.close();
+    }
+    // run().catch(console.dir);
+});
+
+app.get("/listPlaces", async (req, res) => {
+    try {
+        const client = new MongoClient(uri);
+        const database = client.db("UX-Airbnb-Project");
+        const post = database.collection("Places");
+
+        // const query = {};
+        // const options = {
+        //     // sort: {nombre: 1},
+        //     projection: {id: 0, nombre: 1, apellido: 1},
+        // };
+        const cursor = post.find();
+
+        if ((await post.countDocuments()) === 0) {
+            console.log("No documents found!");
+            res.status(200).send(`no se encontraron documentos`);
+        }
+
+        let arr = [];
+        // Print returned documents
+        for await (const doc of cursor) {
+            console.dir(doc);
+            arr.push(doc);
+        }
+        res.status(200).send({
+            documentos: arr,
+        });
+        // console.log(`hay ${await post.countDocuments()} documentos`);
+    } catch (error) {
+        res.status(500).send("no se pudo leer");
+        console.error(error);
+    } finally {
+        await client.close();
+    }
+    // run().catch(console.dir);
+});
+
+app.get("/listFavorites", async (req, res) => {
+    try {
+        const client = new MongoClient(uri);
+        const database = client.db("UX-Airbnb-Project");
+        const post = database.collection("Favorites");
+
+        // const query = {};
+        // const options = {
+        //     // sort: {nombre: 1},
+        //     projection: {id: 0, nombre: 1, apellido: 1},
+        // };
+        const cursor = post.find();
+
+        if ((await post.countDocuments()) === 0) {
+            console.log("No documents found!");
+            res.status(200).send(`no se encontraron documentos`);
+        }
+
+        let arr = [];
+        // Print returned documents
+        for await (const doc of cursor) {
+            console.dir(doc);
+            arr.push(doc);
+        }
+        res.status(200).send({
+            documentos: arr,
+        });
+        // console.log(`hay ${await post.countDocuments()} documentos`);
+    } catch (error) {
+        res.status(500).send("no se pudo leer");
+        console.error(error);
+    } finally {
+        await client.close();
+    }
+    // run().catch(console.dir);
+});
