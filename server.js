@@ -219,121 +219,19 @@ app.post("/subirHotels", async (req, res) => {
         const database = client.db("UX-Airbnb-Project");
         const post = database.collection("Hotels");
         // const docbody = req.body;
-        const doc = [
+        const doc = 
              {
-                id: 1,
-                title: 'Argos in Cappadocia',
-                image: ('../../assets/images/hotels/cp-1.jpeg'),
-                location: 'Turkey, Cappadocia',
-                rating: 9,
-                pricePeerDay: '130$',
-            },
-             {
-                id: 2,
-                title: 'Sultan Cave Suites',
-                image: ('../../assets/images/hotels/cp-2.jpeg'),
-                location: 'Turkey, Cappadocia',
-                rating: 9.3,
-                pricePeerDay: '230$',
-            },
-             {
-                id: 3,
-                title: 'Villa Brunella',
-                image: ('../../assets/images/hotels/capri-1.jpeg'),
-                location: 'Italy, Capri',
-                rating: 9.4,
-                pricePeerDay: '280$',
-            },
-             {
-                id: 4,
-                title: 'Hotel La Floridiana',
-                image: ('../../assets/images/hotels/capri-2.jpeg'),
-                location: 'Italy, Capri',
-                rating: 9.3,
-                pricePeerDay: '190$',
-            },
-             {
-                id: 5,
-                title: "Le Taha'a by Pearl Resorts",
-                image: ('../../assets/images/hotels/polynesia-1.jpeg'),
-                location: 'Polynesia, Bora Bora',
-                rating: 9.2,
-                pricePeerDay: '250$',
-            },
-             {
-                id: 6,
-                title: 'Le Meridien Bora Bora',
-                image: ('../../assets/images/hotels/polynesia-2.jpeg'),
-                location: 'Polynesia, Bora Bora',
-                rating: 9.4,
-                pricePeerDay: '270$',
-            },
-             {
-                id: 7,
-                title: 'InterContinental Phuket Resort',
-                image: ('../../assets/images/hotels/phuket-1.jpg'),
-                location: 'Thailand, Phuket',
-                rating: 9.2,
-                pricePeerDay: '210$',
-            },
-             {
-                id: 8,
-                title: 'The Nai Harn',
-                image: ('../../assets/images/hotels/phuket-2.jpeg'),
-                location: 'Thailand, Phuket',
-                rating: 9.4,
-                pricePeerDay: '430$',
-            },
-             {
-                id: 9,
-                title: 'Hotel Poseidon',
-                image: ('../../assets/images/hotels/ac-1.jpeg'),
-                location: 'Italy, Amalfi Coast',
-                rating: 9.2,
-                pricePeerDay: '330$',
-            },
-             {
-                id: 10,
-                title: 'Le Agavi Hotel',
-                image: ('../../assets/images/hotels/ac-2.jpeg'),
-                location: 'Italy, Amalfi Coast',
-                rating: 9.4,
-                pricePeerDay: '350$',
-            },
-             {
-                id: 11,
-                title: 'Hotel Casa 1800 Granada',
-                image: ('../../assets/images/hotels/granada-1.jpeg'),
-                location: 'Spain, Granada',
-                rating: 9.2,
-                pricePeerDay: '230$',
-            },
-             {
-                id: 12,
-                title: 'Parador de Granada',
-                image: ('../../assets/images/hotels/granada-2.jpeg'),
-                location: 'Spain, Granada',
-                rating: 9.4,
-                pricePeerDay: '120$',
-            },
-        
-             {
-                id: 13,
-                title: 'Konansou',
-                image: ('../../assets/images/hotels/cb-1.jpeg'),
-                location: 'Japan, Cherry blossoms',
-                rating: 9.2,
-                pricePeerDay: '740$',
-            },
-             {
-                id: 14,
-                title: 'Shuhokaku Kogetsu',
-                image: ('../../assets/images/hotels/cb-2.jpeg'),
-                location: 'Japan, Cherry blossoms',
-                rating: 9.4,
-                pricePeerDay: '240$',
-            },
-        ];
+              
+                id: req.body.id,
+                title: req.body.title,
+                image: req.body.image,
+                location: req.body.location,
+                rating: req.body.rating,
+                pricePeerDay: req.body.pricePeerDay,
+
+             }
+
+    
         const result = await post.insertMany(doc);
         res.status(200).send(
             `se creo exitosamente el usuario con create post ${result}`
@@ -345,6 +243,70 @@ app.post("/subirHotels", async (req, res) => {
         await client.close();
     }
 });
+
+
+app.post("/subirTopPlaces", async (req, res) => {
+    // console.log("--- Create Post --- ");
+    try {
+        const client = new MongoClient(uri);
+        const database = client.db("UX-Airbnb-Project");
+        const post = database.collection("TopPlaces");
+        // const docbody = req.body;
+        const doc = 
+            [ {
+                id: 1,
+                image: ('../../assets/images/trips/2082f59465c39094ce90bebd0fcf8fa7.jpeg'),
+                title: 'Amalfi Coast',
+                location: 'Italy',
+                description:
+                    'The ultimate Amalfi Coast travel guide, where to stay, where to eat, and what areas to visit in the Amalfi Coast of Italy. Positano, Ravello, Amalfi and more',
+                rating: 9.4,
+                gallery: [
+                    ('../../assets/images/trips/3722dd4614a5a58f2ec8ebf17c22f76d.jpeg'),
+                    ('../../assets/images/trips/af933a359582704eee05be198e882be0.jpeg'),
+                ],
+                reviews: [2,1],
+                hotels: [9,10],
+            },
+            {
+                id: 4,
+                image: ('../../assets/images/trips/922a0cb274208ccd234f6c14f2174b8b.jpeg'),
+                title: 'Granada',
+                location: 'Spain',
+                description:
+                    'Granada is the capital city of the province of Granada, in the autonomous community of Andalusia, Spain',
+                rating: 8.9,
+                gallery: 0,
+                reviews: [1,2],
+                hotels: [11,12],
+            },
+            {
+                id: 6,
+                image: ('../../assets/images/trips/e57a2a310330ee1d8928eb75d416a53d.jpeg'),
+                title: 'Cherry blossoms',
+                location: 'Japan',
+                description:
+                    "Cherry blossoms usually bloom between mid-March and early May. In 2022, Tokyo's cherry blossom season officially began on March 20",
+                rating: 7.4,
+                gallery: 0,
+                reviews: [1,2],
+                hotels: [13,14],
+            },];
+
+    
+        const result = await post.insertMany(doc);
+        res.status(200).send(
+            `se creo exitosamente el usuario con create post ${result}`
+        );
+    } catch (error) {
+        res.status(500).send("no se creo el usuario");
+        console.log(error);
+    } finally {
+        await client.close();
+    }
+});
+
+
 
 app.put("/editPost/:_id", async (req, res) => {
     try {
