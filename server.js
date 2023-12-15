@@ -167,19 +167,13 @@ app.post("/subirUser", async (req, res) => {
         const database = client.db("UX-Airbnb-Project");
         const post = database.collection("Users");
         // const docbody = req.body;
-        const doc = [
+        const doc = 
             {
-                id: 1,
-                username: 'Alexia Jane',
-                avatar: '../../assets/images/users/32.jpeg',
-            },
-            {
-                id: 2,
-                username: 'Jacky Depp',
-                avatar: '../../assets/images/users/35.jpeg',
-            },
-        ];
-        const result = await post.insertMany(doc);
+                id: req.body.id,
+                username: req.body.username,
+                avatar: req.body.avatar,
+            };
+        const result = await post.insertOne(doc);
         res.status(200).send(
             `se creo exitosamente el usuario con create post ${result}`
         );
@@ -192,29 +186,21 @@ app.post("/subirUser", async (req, res) => {
 });
 
 app.post("/subirReviews", async (req, res) => {
-    // console.log("--- Create Post --- ");
+    
     try {
         const client = new MongoClient(uri);
         const database = client.db("UX-Airbnb-Project");
         const post = database.collection("Reviews");
         // const docbody = req.body;
-        const doc = [
+        const doc = 
             {
-                id: 1,
-                date: '21 May, 2022',
-                author: 1,
-                rating: 7,
-                text: 'Lorem ipsum dolor sit amet. Iusto nihil et porro soluta ut labore nesciunt sed dolor nihil qui laudantium consequatur',
-            },
-            {
-                id: 2,
-                date: '14 July, 2021',
-                author: 2,
-                rating: 9.1,
-                text: 'Lorem ipsum dolor sit amet.',
-            },
-        ];
-        const result = await post.insertMany(doc);
+                id: req.body.id,
+                date: req.body.date,
+                author: req.body.author,
+                rating: req.body.rating,
+                text: req.body.text
+            }
+        const result = await post.insertOne(doc);
         res.status(200).send(
             `se creo exitosamente el usuario con create post ${result}`
         );
@@ -234,19 +220,118 @@ app.post("/subirHotels", async (req, res) => {
         const post = database.collection("Hotels");
         // const docbody = req.body;
         const doc = [
-            {
+             {
                 id: 1,
-                date: '21 May, 2022',
-                author: 1,
-                rating: 7,
-                text: 'Lorem ipsum dolor sit amet. Iusto nihil et porro soluta ut labore nesciunt sed dolor nihil qui laudantium consequatur',
+                title: 'Argos in Cappadocia',
+                image: ('../../assets/images/hotels/cp-1.jpeg'),
+                location: 'Turkey, Cappadocia',
+                rating: 9,
+                pricePeerDay: '130$',
             },
-            {
+             {
                 id: 2,
-                date: '14 July, 2021',
-                author: 2,
-                rating: 9.1,
-                text: 'Lorem ipsum dolor sit amet.',
+                title: 'Sultan Cave Suites',
+                image: ('../../assets/images/hotels/cp-2.jpeg'),
+                location: 'Turkey, Cappadocia',
+                rating: 9.3,
+                pricePeerDay: '230$',
+            },
+             {
+                id: 3,
+                title: 'Villa Brunella',
+                image: ('../../assets/images/hotels/capri-1.jpeg'),
+                location: 'Italy, Capri',
+                rating: 9.4,
+                pricePeerDay: '280$',
+            },
+             {
+                id: 4,
+                title: 'Hotel La Floridiana',
+                image: ('../../assets/images/hotels/capri-2.jpeg'),
+                location: 'Italy, Capri',
+                rating: 9.3,
+                pricePeerDay: '190$',
+            },
+             {
+                id: 5,
+                title: "Le Taha'a by Pearl Resorts",
+                image: ('../../assets/images/hotels/polynesia-1.jpeg'),
+                location: 'Polynesia, Bora Bora',
+                rating: 9.2,
+                pricePeerDay: '250$',
+            },
+             {
+                id: 6,
+                title: 'Le Meridien Bora Bora',
+                image: ('../../assets/images/hotels/polynesia-2.jpeg'),
+                location: 'Polynesia, Bora Bora',
+                rating: 9.4,
+                pricePeerDay: '270$',
+            },
+             {
+                id: 7,
+                title: 'InterContinental Phuket Resort',
+                image: ('../../assets/images/hotels/phuket-1.jpg'),
+                location: 'Thailand, Phuket',
+                rating: 9.2,
+                pricePeerDay: '210$',
+            },
+             {
+                id: 8,
+                title: 'The Nai Harn',
+                image: ('../../assets/images/hotels/phuket-2.jpeg'),
+                location: 'Thailand, Phuket',
+                rating: 9.4,
+                pricePeerDay: '430$',
+            },
+             {
+                id: 9,
+                title: 'Hotel Poseidon',
+                image: ('../../assets/images/hotels/ac-1.jpeg'),
+                location: 'Italy, Amalfi Coast',
+                rating: 9.2,
+                pricePeerDay: '330$',
+            },
+             {
+                id: 10,
+                title: 'Le Agavi Hotel',
+                image: ('../../assets/images/hotels/ac-2.jpeg'),
+                location: 'Italy, Amalfi Coast',
+                rating: 9.4,
+                pricePeerDay: '350$',
+            },
+             {
+                id: 11,
+                title: 'Hotel Casa 1800 Granada',
+                image: ('../../assets/images/hotels/granada-1.jpeg'),
+                location: 'Spain, Granada',
+                rating: 9.2,
+                pricePeerDay: '230$',
+            },
+             {
+                id: 12,
+                title: 'Parador de Granada',
+                image: ('../../assets/images/hotels/granada-2.jpeg'),
+                location: 'Spain, Granada',
+                rating: 9.4,
+                pricePeerDay: '120$',
+            },
+        
+             {
+                id: 13,
+                title: 'Konansou',
+                image: ('../../assets/images/hotels/cb-1.jpeg'),
+                location: 'Japan, Cherry blossoms',
+                rating: 9.2,
+                pricePeerDay: '740$',
+            },
+             {
+                id: 14,
+                title: 'Shuhokaku Kogetsu',
+                image: ('../../assets/images/hotels/cb-2.jpeg'),
+                location: 'Japan, Cherry blossoms',
+                rating: 9.4,
+                pricePeerDay: '240$',
             },
         ];
         const result = await post.insertMany(doc);
