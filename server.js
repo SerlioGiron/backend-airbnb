@@ -776,18 +776,18 @@ app.get("/listPlaces", async (req, res) => {
     // run().catch(console.dir);
 });
 
-app.get("/listFavorites", async (req, res) => {
+app.get("/listFavorites/:email", async (req, res) => {
     try {
         const client = new MongoClient(uri);
         const database = client.db("UX-Airbnb-Project");
         const post = database.collection("Favorites");
 
-        // const query = {};
+        const query = {email: req.params.email};
         // const options = {
         //     // sort: {nombre: 1},
         //     projection: {id: 0, nombre: 1, apellido: 1},
         // };
-        const cursor = post.find();
+        const cursor = post.find(query);
 
         if ((await post.countDocuments()) === 0) {
             console.log("No documents found!");
@@ -811,18 +811,18 @@ app.get("/listFavorites", async (req, res) => {
     // run().catch(console.dir);
 });
 
-app.get("/listReservas", async (req, res) => {
+app.get("/listReservas/:email", async (req, res) => {
     try {
         const client = new MongoClient(uri);
         const database = client.db("UX-Airbnb-Project");
         const post = database.collection("Reservas");
 
-        // const query = {};
+        const query = {email: req.params.email};
         // const options = {
         //     // sort: {nombre: 1},
         //     projection: {id: 0, nombre: 1, apellido: 1},
         // };
-        const cursor = post.find();
+        const cursor = post.find(query);
 
         if ((await post.countDocuments()) === 0) {
             console.log("No documents found!");
