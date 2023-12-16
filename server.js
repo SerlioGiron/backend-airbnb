@@ -8,6 +8,7 @@ const {
 } = require("firebase/auth");
 const path = require("path");
 const app = express();
+const cors = require('cors');
 const bodyParser = require("body-parser");
 var urlEncodeParser = bodyParser.urlencoded({extended: true});
 const {MongoClient, ServerApiVersion, ObjectId} = require("mongodb");
@@ -27,6 +28,7 @@ const uri =
 
 const firebaseApp = initializeApp(firebaseConfig);
 app.use(urlEncodeParser);
+app.use(cors());
 
 let port = 5000;
 app.listen(port, () => {
@@ -166,6 +168,31 @@ app.post("/subirUser", async (req, res) => {
         const client = new MongoClient(uri);
         const database = client.db("UX-Airbnb-Project");
         const post = database.collection("Users");
+        // const docbody = req.body;
+        const doc = 
+            {
+                id: req.body.id,
+                username: req.body.username,
+                avatar: req.body.avatar,
+            };
+        const result = await post.insertOne(doc);
+        res.status(200).send(
+            `se creo exitosamente el usuario con create post ${result}`
+        );
+    } catch (error) {
+        res.status(500).send("no se creo el usuario");
+        console.log(error);
+    } finally {
+        await client.close();
+    }
+});
+
+app.post("/subirReserva", async (req, res) => {
+    // console.log("--- Create Post --- ");
+    try {
+        const client = new MongoClient(uri);
+        const database = client.db("UX-Airbnb-Project");
+        const post = database.collection("Reservas");
         // const docbody = req.body;
         const doc = 
             {
@@ -356,7 +383,87 @@ app.post("/subirPlaces", async (req, res) => {
     }
 });
 
+app.post("/subirFavorites", async (req, res) => {
+    // console.log("--- Create Post --- ");
+    try {
+        const client = new MongoClient(uri);
+        const database = client.db("UX-Airbnb-Project");
+        const post = database.collection("Favorites");
+        // const docbody = req.body;
+        const doc = 
+        [
+            {
+                id: 2,
+                image: '../../assets/images/hotels/cp-2.jpeg',
+                title: 'Capri',
+                location: 'Italy',
+                description:
+                    'Capri is an island of a thousand faces, where visitors can walk the trails skirting the cliffs above the Mediterranean in total solitude, dive into the crystalline waters of its rocky shore, or plunge into the vibrant crowds of the Piazzetta and shop in the most fashionable boutiques in the world.',
+                rating: 9.1,
+                gallery: [],
+                reviews: [],
+                hotels: [],
+            },
+            {
+                id: 3,
+                image: '../../assets/images/hotels/capri-1.jpeg',
+                title: 'Bora Bora',
+                location: 'Polynesia',
+                description:
+                    'Learn how you can travel Bora Bora on a budget and how overwater bungalows are possible for cheap plus tips on keeping Bora Bora trip costs low.',
+                rating: 8.9,
+                gallery: [],
+                reviews: [],
+                hotels: [],
+            },
+            {
+                id: 7,
+                image: '../../assets/images/hotels/capri-2.jpeg',
+                title: 'Phuket',
+                location: 'Thailand',
+                description:
+                    'Phuket is the largest island in Thailand. It is located in the Andaman Sea in southern Thailand',
+                rating: 9.2,
+                gallery: [],
+                reviews: [],
+                hotels: [],
+            },
+        ];
 
+    
+        const result = await post.insertMany(doc);
+        res.status(200).send(
+            `se creo exitosamente el usuario con create post ${result}`
+        );
+    } catch (error) {
+        res.status(500).send("no se creo el usuario");
+        console.log(error);
+    } finally {
+        await client.close();
+    }
+});
+
+app.post("/subirFavorite", async (req, res) => {
+    // console.log("--- Create Post --- ");
+    try {
+        const client = new MongoClient(uri);
+        const database = client.db("UX-Airbnb-Project");
+        const post = database.collection("Favorites");
+        // const docbody = req.body;
+        const doc = req.body;
+
+    
+        const result = await post.insertOne(doc);
+        res.status(200).send(
+            `se creo exitosamente el usuario con create post ${result}`
+        );
+    } catch (error) {
+        res.status(500).send("no se creo el usuario");
+        console.log(error);
+    } finally {
+        await client.close();
+    }
+});
 
 app.put("/editPost/:_id", async (req, res) => {
     try {
@@ -585,9 +692,7 @@ app.get("/listHotels", async (req, res) => {
             console.dir(doc);
             arr.push(doc);
         }
-        res.status(200).send({
-            documentos: arr,
-        });
+        res.status(200).send(arr);
         // console.log(`hay ${await post.countDocuments()} documentos`);
     } catch (error) {
         res.status(500).send("no se pudo leer");
@@ -696,9 +801,7 @@ app.get("/listFavorites", async (req, res) => {
             console.dir(doc);
             arr.push(doc);
         }
-        res.status(200).send({
-            documentos: arr,
-        });
+        res.status(200).send(arr);
         // console.log(`hay ${await post.countDocuments()} documentos`);
     } catch (error) {
         res.status(500).send("no se pudo leer");
